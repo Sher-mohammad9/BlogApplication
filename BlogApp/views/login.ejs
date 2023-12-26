@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <%- include('./partials/head.ejs') %>
+        <title>Login Page</title>
+    <%- include('./partials/style.ejs') %>    
+</head>
+
+<body>
+    <div class="container mt-6">
+    <form action="/user/login" , method="post">
+        <div class="mb-3">
+            <label for="email" class="form-label">Email :</label>
+            <input type="email" placeholder="Enter email" value="<%= locals.user ? locals.user.email : "" %>"
+                name="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" required>
+        </div>
+        <% if (locals.message==="wrong email" ) { %>
+            <div class="alert alert-danger" role="alert">
+                <%= locals.message %>
+            </div>
+            <% } %>
+                <div class="mb-3">
+                    <label for="password" class="form-label">Password</label>
+                    <input type="password" placeholder="Enter password"
+                        value="<%= locals.user ? locals.user.password : "" %>" name="password" class="form-control"
+                        id="exampleInputPassword1" required>
+                </div>
+                <% if (locals.message==="Incorrect Password" ) { %>
+                    <div class="alert alert-danger" role="alert">
+                        <%= locals.message %>
+                    </div>
+                    <% } %>
+                        <button type="submit" class="btn btn-primary">Log In</button>
+    </form>
+</div>
+    <%- include("./partials/script.ejs") %>
+</body>
+
+</html>

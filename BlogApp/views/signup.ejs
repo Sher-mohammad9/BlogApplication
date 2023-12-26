@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <%- include('./partials/head.ejs') %>
+    <title>SignUp Page</title>
+    <%- include('./partials/style.ejs') %>
+
+</head>
+
+<body>
+  <div class="container mt-6">
+  <form action="/user/signup"  method="post">
+      <div class="mb-3">
+        <label for="name" class="form-label">Name :</label>
+        <input type="text" placeholder="Enter name" value="<%= locals.user ? locals.user.name : "" %>" name="name"
+          class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" required>
+      </div>
+      <div class="mb-3">
+        <label for="mobile" class="form-label">Mobile :</label>
+        <input type="number" placeholder="Enter mobile number" value="<%= locals.user ? locals.user.mobile : "" %>"
+          name="mobile" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" required>
+      </div>
+      <% if (locals.message==="Mobile Number already exists" ) { %>
+        <div class="alert alert-danger" role="alert">
+          <%= locals.message %>
+        </div>
+        <% } %>
+          <div class="mb-3">
+            <label for="email" class="form-label">Email :</label>
+            <input type="email" placeholder="Enter email" value="<%= locals.user ? locals.user.email : "" %>"
+              name="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" required>
+          </div>
+          <% if (locals.message==="Email already exists" ) { %>
+            <div class="alert alert-danger" role="alert">
+              <%= locals.message %>
+            </div>
+            <% } %>
+              <div class="mb-3">
+                <label for="password" class="form-label">Password</label>
+                <input type="password" placeholder="Enter password"
+                  value="<%= locals.user ? locals.user.password : "" %>" name="password" class="form-control"
+                  id="exampleInputPassword1" required>
+              </div>
+              <div class="mb-3">
+                <label for="confirmPassword" class="form-label">Confirm Password</label>
+                <input type="text" placeholder="Re-enter-password"
+                  value="<%= locals.user ? locals.user.confirmPassword : "" %>" name="confirmPassword"
+                  class="form-control" id="exampleInputPassword1" required>
+              </div>
+              <% if (locals.message==="Confirm Password is not matched" ) { %>
+                <div class="alert alert-danger" role="alert">
+                  <%= locals.message %>
+                </div>
+                <% } %>
+                  <button type="submit" class="btn btn-primary">Submit</button>
+  </form>
+</div>
+  <%- include("./partials/script.ejs") %>
+</body>
+
+</html>

@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <%- include('./partials/head.ejs') %>
+        <title>Profile page</title>
+    <%- include('./partials/style.ejs') %>   
+</head>
+
+<body>
+  <div class="container mt-6">
+    <form action="/user/update-profile"  method="post" enctype="multipart/form-data">
+        <div class="mb-3">
+            <label for="name" class="form-label">Add Profile :</label>
+            <input type="file" name="profileImage"
+              class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp">
+          </div>
+        <div class="mb-3">
+          <label for="name" class="form-label">Name :</label>
+          <input type="text" value="<%= locals.user ? locals.user.name : "" %>" name="name"
+            class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" required>
+        </div>
+        <div class="mb-3">
+          <label for="mobile" class="form-label">Mobile :</label>
+          <input type="number" value="<%= locals.user ? locals.user.mobile : "" %>"
+            name="mobile" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" required>
+        </div>
+        <% if (locals.message==="Mobile Number already exists" ) { %>
+          <div class="alert alert-danger" role="alert">
+            <%= locals.message %>
+          </div>
+          <% } %>
+                    <button type="submit" class="btn btn-primary">Submit</button>
+    </form>
+  </div>
+    <%- include("./partials/script.ejs") %>
+</body>
+
+</html>
