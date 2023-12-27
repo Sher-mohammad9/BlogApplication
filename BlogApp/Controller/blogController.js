@@ -31,8 +31,11 @@ exports.userBlogs = asyncErrorHandler(async(req, resp, next)=>{
 
 //Get Blog By Name
 exports.userBlogsByTitle = asyncErrorHandler(async(req, resp, next)=>{
-   const blogs = await blogModel.find({$and : [{createdBy : req.user._id}, {title : {$regex : req.body.title, $options : "i"}}]});
-   resp.render("userBlogs", {user : req.user, blogs : blogs, error : "Blog Not Found"})
+    if(req.body.title){
+       const blogs = await blogModel.find({$and : [{createdBy : req.user._id}, {title : {$regex : req.body.title, $options : "i"}}]});
+       return resp.render("userBlogs", {user : req.user, blogs : blogs, error : "Blog Not Found"})
+    }
+    resp.redirect("/home")
 });
 
 // Delete blog
@@ -51,8 +54,7 @@ exports.updatePage = asyncErrorHandler(async(req, resp, next)=>{
     const _id = Object.keys(bodyObj)[0]
     req.Id = _id;
     const blog = await blogModel.findById(_id);
-    resp.render("bl", {user : req.user, blog : blog});
-    console.log("req ", req.Id)
+    resp.render("blogUp", {user : req.user, blog : blog});
 });
 
 exports.updateBlog = asyncErrorHandler(async(req, resp, next)=>{

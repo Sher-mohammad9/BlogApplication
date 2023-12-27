@@ -18,16 +18,17 @@ exports.signupUser = asyncErrorHandler(async(req, resp, next)=>{
 
     const token = jwt.sign({USER_DATA}, config.SECRET_KEY);
  
-    resp.cookie("token", token).render("home", {user : NEW_USER});
+    resp.cookie("token", token).render("home", {user : NEW_USER, message : "Successfully Signup"});
 });
 
 exports.logInUser = asyncErrorHandler(async(req, resp, next)=>{
+    const bodyObj = JSON.parse(JSON.stringify(req.body));
     const USER_DATA = await userModel.findOne({email : req.body.email});
     if(USER_DATA){
         const checkPassword = await bcrypt.compare(req.body.password, USER_DATA.password);
         if(checkPassword){
             const token = jwt.sign({USER_DATA}, config.SECRET_KEY);
-            return resp.cookie("token", token).render("home", {user : USER_DATA});
+            return resp.cookie("token", token).render("home", {user : USER_DATA, message : "Successfully Login"});
         }else{
             const error = new CustomError("Incorrect Password", 400);
             error.user = req.body
@@ -54,5 +55,5 @@ exports.updateProfile = asyncErrorHandler(async(req, resp, next)=>{
             {$set : req.body}
             );
     }
-        resp.render("home", {user : existsUser});
+        resp.render("home", {user : existsUser, message : "Successfully Update Profile"});
 })
